@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block titulo_conteudo %}
+
+    Categorias
+
+{% endblock titulo_conteudo %}
+
+{% block conteudo %}
+    <div class="barrabotoes">
+        <button type="button" class="btn btn-primary btn-sm" onclick="">Nova Categoria</button> 
+        </div>
+    <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Descrição</th>
+                <th scope="col">Ordem</th>
+                <th scope="col">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for categoria in lista %}
+            <tr>
+                <td>{{categoria.id}}</td>
+                <td>{{categoria.nome}}</td>
+                <td>{{categoria.ordem}}</td>
+                <td>
+                    <button type="button" class="btn btn-info" onclick="">Detalhes</button>
+                    <button type="button" class="btn btn-warning" onclick="">Alterar</button>
+                    <button type="button" class="btn btn-danger" onclick="">Excluir</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+{% endblock conteudo %}
