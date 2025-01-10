@@ -6,6 +6,8 @@ from .models import *
 def index(request):
     return render(request,'index.html')
 
+#urls Categoria
+
 def categoria(request):
    contexto = {
        'lista': Categoria.objects.all().order_by('id'),
@@ -73,3 +75,74 @@ def remover_categoria(request, id):
         return redirect('lista')
     
     return redirect('lista')
+
+#urls Cliente
+
+def cliente(request):
+   contexto = {
+       'lista_cliente': Cliente.objects.all().order_by('id'),
+   }
+   return render(request, 'cliente/lista.html', contexto)
+
+def form_cliente(request, id=None):
+    if id:
+        try:
+            cliente = Cliente.objects.get(pk=id)  
+        except Cliente.DoesNotExist:
+            messages.error(request, 'Cliente não encontrado.')
+            return redirect('lista_cliente')
+    else:
+        cliente = None  
+
+    if request.method == 'POST':
+        form = ClienteForm(request.POST, instance=cliente) 
+        if form.is_valid():
+            form.save() 
+            messages.success(request, 'Operação realizada com sucesso.')
+            return redirect('lista_cliente')  
+        else:
+            messages.error(request, 'Erro ao processar o formulário.')
+    else:  
+        form = ClienteForm(instance=cliente)  
+
+    return render(request, 'cliente/formulario.html', {'form': form})
+
+def editar_cliente(request, id):
+    try: 
+        cliente = Cliente.objects.get(pk=id)
+    except: 
+        messages.error(request, 'Registro não encontrado')
+        return redirect('lista_cliente')
+
+    if (request.method == 'POST'):
+        form = ClienteForm(request.POST, instance = cliente)
+        if form.is_valid():
+            cliente = form.save()
+            lista_cliente=[]
+            lista_cliente.append(cliente)
+            return render(request, 'cliente/lista.html', {'lista_cliente':lista_cliente})    
+    else: 
+        form = ClienteForm(instance = cliente)
+        return render(request, 'cliente/formulario.html', {'form': form})
+    
+def detalhes_cliente(request, id):
+    try:
+        cliente = Cliente.objects.get(pk=id)
+    except Cliente.DoesNotExist:
+        messages.error(request, 'Cliente não encontrado.')
+        return redirect('lista_cliente')
+    
+    return render(request, 'cliente/detalhes.html', {'cliente': cliente})
+
+def remover_cliente(request, id):
+    try:
+        cliente = Cliente.objects.get(pk=id)
+        cliente.delete()
+        messages.success(request, 'Exclusão realizada com Sucesso.')
+    except:
+        messages.error(request, 'Registro não encontrado')
+        return redirect('lista_cliente')
+    
+    return redirect('lista_cliente')
+
+

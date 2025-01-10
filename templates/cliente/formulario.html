@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block titulo_conteudo %}  Formulário do Produto: {% endblock titulo_conteudo %}
+{% block titulo_conteudo %}  Formulário de Cliente: {% endblock titulo_conteudo %}
 
 {% block conteudo %} 
 
@@ -16,8 +16,8 @@
         {% endif %} -->
 
         {{ form.as_p }}
-        <button type="submit" class="btn btn-primary" >Enviar</button>
-        <button type="button" class="btn btn-secondary" onclick="location.href='{% url 'lista' %}'">Voltar</button>
+        <button type="submit" class="btn btn-primary">Enviar</button>
+        <button type="button" class="btn btn-secondary" onclick="location.href='{% url 'lista_cliente' %}'">Voltar</button>
     </form>
 
 {% endblock %}

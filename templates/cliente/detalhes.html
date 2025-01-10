@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{%block titulo_conteudo %} Detalhes do Cliente: {% endblock %}
+
+{% block conteudo %} 
+
+    <label for="id_cliente">ID:</label>
+    <span class="form-control" style="margin-bottom: 0.6rem;">{{ cliente.id }}</span>
+
+    <label for="id_nome">Nome:</label>
+    <span class="form-control" style="margin-bottom: 0.6rem;">{{ cliente.nome }}</span>
+
+    <label for="id_cpf">C.P.F:</label>
+    <span class="form-control" style="margin-bottom: 0.6rem;">{{ cliente.cpf }}</span>
+    
+    <label for="id_datanasc">Data de Nascimento:</label>
+    <span class="form-control" style="margin-bottom: 0.6rem;">{{ cliente.datanascimento }}</span>
+
+    <button type="submit" class="btn btn-secondary" onclick="location.href='{% url 'lista_cliente' %}'">Voltar</button>
+
+{% endblock %}
