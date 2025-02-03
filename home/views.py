@@ -1,3 +1,4 @@
+from multiprocessing import context
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from .forms import *
@@ -144,5 +145,74 @@ def remover_cliente(request, id):
         return redirect('lista_cliente')
     
     return redirect('lista_cliente')
+
+# urls Produto
+
+def produto (request):
+    contexto = {
+          'lista_produto': Produto.objects.all().order_by('id'),
+    }
+    return render(request, 'produto/lista.html', contexto)
+
+def form_produto(request, id=None):
+    if id:
+        try:
+            produto = Produto.objects.get(pk=id)  
+        except Produto.DoesNotExist:
+            messages.error(request, 'Produto não encontrado.')
+            return redirect('lista_produto')
+    else:
+        produto = None  
+
+    if request.method == 'POST':
+        form = ProdutoForm(request.POST, instance=produto) 
+        if form.is_valid():
+            form.save() 
+            messages.success(request, 'Operação realizada com sucesso.')
+            return redirect('lista_produto')  
+        else:
+            messages.error(request, 'Erro ao processar o formulário.')
+    else:  
+        form = ProdutoForm(instance=produto)  
+
+    return render(request, 'produto/formulario.html', {'form': form})
+
+def editar_produto(request, id):
+    try: 
+        produto = Produto.objects.get(pk=id)
+    except: 
+        messages.error(request, 'Registro não encontrado')
+        return redirect('lista_produto')
+
+    if (request.method == 'POST'):
+        form = ProdutoForm(request.POST, instance = produto)
+        if form.is_valid():
+            produto = form.save()
+            lista_produto=[]
+            lista_produto.append(produto)
+            return render(request, 'produto/lista.html', {'lista_produto':lista_produto})    
+    else: 
+        form = ProdutoForm(instance = produto)
+        return render(request, 'produto/formulario.html', {'form': form})
+
+def detalhes_produto(request, id):
+    try:
+        produto = Produto.objects.get(pk=id)
+    except Produto.DoesNotExist:
+        messages.error(request, 'Produto não encontrado.')
+        return redirect('lista_produto')
+    
+    return render(request, 'produto/detalhes.html', {'produto': produto})
+
+def remover_produto(request, id): 
+    try:
+        produto = Produto.objects.get(pk=id)
+        produto.delete()
+        messages.success(request, 'Exclusão realizada com Sucesso.')
+    except:
+        messages.error(request, 'Registro não encontrado')
+        return redirect('lista_produto')
+    
+    return redirect('lista_produto')
 
 

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{%block titulo_conteudo %} Detalhes do Produto: {% endblock %}
+
+{% block conteudo %} 
+
+    <label for="id_produto">ID:</label>
+    <span class="form-control" style="margin-bottom: 0.6rem;">{{ produto.id }}</span>
+
+    <label for="id_nome">Nome do Produto:</label>
+    <span class="form-control" style="margin-bottom: 0.6rem;">{{ produto.nome }}</span>
+
+    <label for="id_preco">Preço do Produto:</label>
+    <span class="form-control" style="margin-bottom: 0.6rem;">{{ produto.preco }}</span>
+    
+    <label for="id_categoria">Categoria:</label>
+    <span class="form-control" style="margin-bottom: 0.6rem;">{{ produto.categoria }}</span>
+
+    <label for="id_img">Imagem:</label>
+    <span class="form-control" style="margin-bottom: 0.6rem;"><img src = "{{ produto.img_base64}}" width="200" height="200"></span>
+
+    <button type="submit" class="btn btn-secondary" onclick="location.href='{% url 'lista_produto' %}'">Voltar</button>
+
+{% endblock %}
