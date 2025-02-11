@@ -3,6 +3,8 @@ from django.shortcuts import redirect, render
 from django.contrib import messages
 from .forms import *
 from .models import *
+from django.http import JsonResponse
+from django.apps import apps
 
 def index(request):
     return render(request,'index.html')
@@ -215,4 +217,19 @@ def remover_produto(request, id):
     
     return redirect('lista_produto')
 
+#urls Estoque
 
+def ajustar_estoque(request, id):
+    produto = Produto.objects.get(pk=id)
+    estoque = produto.estoque 
+    if request.method == 'POST':
+        form = EstoqueForm(request.POST, instance=estoque)
+        if form.is_valid():
+            estoque = form.save()
+            lista_produto = []
+            lista_produto.append(estoque.produto) 
+            return redirect('lista_produto')
+            # return render(request, 'produto/lista.html', {'lista_produto': lista_produto})
+    else:
+         form = EstoqueForm(instance=estoque)
+    return render(request, 'produto/estoque.html', {'form': form,})
