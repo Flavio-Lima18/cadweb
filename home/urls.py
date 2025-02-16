@@ -23,5 +23,8 @@ urlpatterns = [
     path('remover_produto/<int:id>', views.remover_produto, name="remover_produto"),
     #Estoque
     path('ajustar_estoque/<int:id>', views.ajustar_estoque, name="ajustar_estoque"),
-
+    #Testes
+    path('teste1/', views.teste1, name='teste1'),
+    path('teste2/', views.teste2, name='teste2'),
+    path('buscar_dados/<str:app_modelo>/', views.buscar_dados, name='buscar_dados'),
 ]
