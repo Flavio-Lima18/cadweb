@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+
+{% block titulo_conteudo %} Listagem de Pedidos {% endblock titulo_conteudo %}
+
+
+{% block conteudo %} 
+
+
+<div class="barrabotoes">
+    <button onClick="location='{% url "lista_pedido" %}'" type="button" class="btn btn-primary btn-sm">Recarregar</button>
+</div>
+
+
+<table class="table table-hover">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Cliente</th>
+        <th>Data</th>
+        <th>Situação</th>
+        <th>Produtos</th>
+        <th>Total (R$)</th>
+        
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for pedido in lista_pedido %}
+      <tr>
+        <td>{{ pedido.id }}</td>
+        <td>{{ pedido.cliente.nome }}</td>
+        <td>{{ pedido.data_pedidof}}</td>
+        <td>{{ pedido.get_status_display }}</td>
+        <td>?</td>  
+        <td>?</td>      
+        <td>
+            <button type="button" class="btn btn-info" onclick="location.href='{% url 'detalhes_pedido' pedido.id %}'">Detalhes</button>
+            <button type="button" class="btn btn-warning" onclick="location.href='{% url 'nota_fiscal' pedido.id %}'">Nota Fiscal</button>
+            <button type="button" class="btn btn-danger" onclick="confirmClose('{% url 'remover_pedido' pedido.id %}', '{{ pedido.id }}')">Excluir</button>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <script> 
+    function confirmClose(url, pedidoId) {
+        const confirmar = confirm(`Confirme para excluir o Pedido de ID: ${pedidoId}`); 
+        if (confirmar) {
+            window.location.href = url; 
+        }
+    }
+</script>
+
+
+{% endblock conteudo %}
